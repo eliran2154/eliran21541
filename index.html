@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>הזמנה - מ.א מטליות</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -19,81 +19,314 @@
     --accent: #4a9eda;
     --green: #25D366;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Heebo', sans-serif; background: var(--darker); color: var(--text); min-height: 100vh; padding-bottom: 110px; }
-  .header { background: linear-gradient(135deg, var(--dark), var(--surface)); border-bottom: 2px solid var(--gold); padding: 18px 16px 14px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-  .header-badge { font-size: 10px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 3px; }
+
+  body {
+    font-family: 'Heebo', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--darker);
+    color: var(--text);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom));
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+  html { min-height: -webkit-fill-available; }
+
+  .header {
+    background: linear-gradient(135deg, var(--dark), var(--surface));
+    border-bottom: 2px solid var(--gold);
+    padding: calc(18px + env(safe-area-inset-top)) 16px 14px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .header-badge {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
   .header-title { font-size: 24px; font-weight: 900; }
   .header-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
   .progress { height: 3px; background: var(--border); }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); width: 0%; transition: width 0.3s; }
-  .section { margin: 10px 10px 0; background: var(--surface); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; }
-  .sec-head { display: flex; align-items: center; gap: 8px; padding: 11px 14px; background: var(--surface2); cursor: pointer; border-bottom: 1px solid var(--border); user-select: none; }
-  .sec-title { flex: 1; font-size: 14px; font-weight: 700; color: var(--gold); }
-  .sec-badge { background: var(--gold); color: var(--darker); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; display: none; }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  .section {
+    margin: 10px 10px 0;
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .sec-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 14px;
+    background: var(--surface2);
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    user-select: none;
+  }
+
+  .sec-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .sec-badge {
+    background: var(--gold);
+    color: var(--darker);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    display: none;
+  }
+
   .sec-badge.on { display: block; }
   .sec-arrow { color: var(--text-muted); font-size: 11px; transition: transform 0.25s; }
   .section.closed .sec-arrow { transform: rotate(-90deg); }
   .sec-body { padding: 2px 0; }
   .section.closed .sec-body { display: none; }
-  .row { display: flex; align-items: center; padding: 7px 14px; border-bottom: 1px solid rgba(42,63,96,0.3); gap: 10px; }
+
+  .row {
+    display: flex;
+    align-items: center;
+    padding: 7px 14px;
+    border-bottom: 1px solid rgba(42,63,96,0.3);
+    gap: 10px;
+  }
+
   .row:last-child { border-bottom: none; }
   .row-name { flex: 1; font-size: 13px; }
-  .qty { display: flex; align-items: center; background: var(--darker); border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
-  .qbtn { width: 34px; height: 34px; background: transparent; border: none; color: var(--gold); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; touch-action: manipulation; }
+
+  .qty {
+    display: flex;
+    align-items: center;
+    background: var(--darker);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .qbtn {
+    width: 34px;
+    height: 34px;
+    background: transparent;
+    border: none;
+    color: var(--gold);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+
   .qbtn:active { background: rgba(201,168,76,0.15); }
-  .qval { width: 38px; text-align: center; font-size: 15px; font-weight: 700; color: var(--text); border: none; background: transparent; -moz-appearance: textfield; }
-  .qval::-webkit-outer-spin-button, .qval::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  .qval {
+    width: 38px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    border: none;
+    background: transparent;
+    -moz-appearance: textfield;
+  }
+
+  .qval::-webkit-outer-spin-button,
+  .qval::-webkit-inner-spin-button { -webkit-appearance: none; }
+
   .qval:focus { outline: none; color: var(--gold); }
-  .notes-wrap { margin: 10px 10px 0; background: var(--surface); border-radius: 14px; border: 1px solid var(--border); padding: 12px 14px; }
+
+  .notes-wrap {
+    margin: 10px 10px 0;
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+  }
+
   .notes-label { font-size: 12px; color: var(--text-muted); margin-bottom: 7px; }
-  .notes-ta { width: 100%; background: var(--darker); border: 1px solid var(--border); border-radius: 10px; padding: 10px; font-family: 'Heebo', sans-serif; font-size: 13px; color: var(--text); resize: none; min-height: 65px; direction: rtl; }
+
+  .notes-ta {
+    width: 100%;
+    background: var(--darker);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    resize: none;
+    min-height: 65px;
+    direction: rtl;
+  }
+
   .notes-ta:focus { outline: none; border-color: var(--gold); }
-  .warning { margin: 10px 10px 0; padding: 12px 14px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.35); border-radius: 14px; color: var(--gold-light); font-size: 13px; font-weight: 700; text-align: center; }
-  .footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--darker); border-top: 2px solid var(--gold); padding: 10px 14px; display: flex; gap: 10px; align-items: center; box-shadow: 0 -8px 30px rgba(0,0,0,0.6); }
+
+  .warning {
+    margin: 10px 10px 0;
+    padding: 12px 14px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 14px;
+    color: var(--gold-light);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--darker);
+    border-top: 2px solid var(--gold);
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.6);
+  }
+
   .foot-info { flex: 1; }
   .foot-count { font-size: 20px; font-weight: 900; color: var(--gold); display: block; }
   .foot-label { font-size: 11px; color: var(--text-muted); }
-  .send-btn { background: linear-gradient(135deg, #25D366, #128C7E); border: none; border-radius: 12px; color: white; font-family: 'Heebo', sans-serif; font-size: 15px; font-weight: 700; padding: 11px 18px; cursor: pointer; display: flex; align-items: center; gap: 7px; box-shadow: 0 4px 15px rgba(37,211,102,0.35); touch-action: manipulation; }
+
+  .send-btn {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-family: 'Heebo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 11px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 4px 15px rgba(37,211,102,0.35);
+    touch-action: manipulation;
+  }
+
   .send-btn:active { transform: scale(0.97); }
-  .toast { position: fixed; top: 75px; left: 50%; transform: translateX(-50%) translateY(-10px); background: var(--gold); color: var(--darker); font-weight: 700; padding: 9px 18px; border-radius: 30px; font-size: 13px; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 999; white-space: nowrap; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .toast {
+    position: fixed;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: var(--gold);
+    color: var(--darker);
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 </style>
 </head>
+
 <body>
+
 <div class="header">
   <div class="header-badge">✦ הזמנה ✦</div>
   <div class="header-title">מ.א מטליות</div>
   <div class="header-sub">בחר כמויות ושלח בווטסאפ</div>
 </div>
-<div class="progress"><div class="progress-fill" id="prog"></div></div>
+
+<div class="progress">
+  <div class="progress-fill" id="prog"></div>
+</div>
+
 <div id="cat"></div>
+
 <div class="notes-wrap">
   <div class="notes-label">📝 הערות להזמנה</div>
   <textarea class="notes-ta" id="notes" placeholder="חוסרים, בקשות מיוחדות..."></textarea>
 </div>
+
 <div class="warning">‼️ דווח חוסרים בהקדם האפשרי ‼️</div>
+
 <div class="footer">
-  <div class="foot-info"><span class="foot-count" id="cnt">0</span><span class="foot-label">פריטים נבחרו</span></div>
-  <button class="send-btn" onclick="sendOrder()">שלח הזמנה</button>
+  <div class="foot-info">
+    <span class="foot-count" id="cnt">0</span>
+    <span class="foot-label">פריטים נבחרו</span>
+  </div>
+
+  <button class="send-btn" onclick="sendOrder()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    שלח הזמנה
+  </button>
 </div>
+
 <div class="toast" id="toast"></div>
+
 <script>
 const PHONE = '972544274897';
+
 const PRODUCTS = [
-'כפפות M אלוורה','כפפות L אלוורה','כפפות S ניטריל שחור','כפפות M ניטריל שחור','כפפות L ניטריל שחור','כפפות XL ניטריל שחור','משטח דלי מגבונים','משטח מילוי מגבונים','106. סחבה 60 יח','126. זוג סחבה','205. ספוג סבון 500 יח','210. מטליות פרימיום','230.4 גליל אקולוגי','261.1 תפזורת כחול','261.2 תפזורת צהוב','261.3 תפזורת ורוד','294. גליל צהוב','301. מיקרו מטלית תפזורת','302. מיקרו סמרטוט תפזורת','363. מיקרו סמרטוט 3 יח','365. מיקרו 5 יח','440. מפה 100 לבן','441. מפה 25 לבן','440.9 מפה 100 שחור','441.22 מפה 25 שחור','440.7 מפה 100 שמנת','441.7 מפה 25 שמנת','440.5 מפה 100 כחול','441.5 מפה 25 כחול','440.3 מפה 100 אדום','441.3 מפה 25 אדום','440.9 מפה 100 צהוב','441.9 מפה 25 צהוב','440.4 מפה 100 בורדו','441.4 מפה 25 בורדו','440.23 מפה 100 ורוד','441.10 מפה 25 ורוד','442.1 מפה 120/180 לבן','445. מפה ראנר כסף','445.1 מפה ראנר זהב','446. מפה לבן','446. מפה שמנת','448.1 מוטבעת לבן','448. גליל מהודרת לבן','448. גליל מהודרת שחור','448. גליל מהודרת שמנת','451.1 צימרונים עץ','451.3 צימרונים פלסטיק','654. סופר מגבת 400','657. סופר מגבת 700','658. סופר מגבת 3 קג','680. בוחשן כפית','682. בוחשן עץ','800. סקוטש צבעוני','803. סקוטש לבן','809. ננס זהב 36 יח','811.1 כרית ברזל זוג','833. ממרקות 50 גרם','834. ממרקות 30 גרם','872. סקוטש 50 מ לבן','890. ספוג סקוטש','896. ספוג הפלא','900. כפפות ניילון','910. כובע אלבד','915. ספוג רחצה','916. סינר פי.וי.סי','918. כובע טבח','923. שיפוד 5/30','923.1 שיפוד 5/25','1963. שיפוד שטוח 24','934. כרית יפנית 9 יח','941. צמר פלדה 2.5 קג','949. צמר פלדה 50 יח','950. קיסמים 1 קג','951. קיסם עטוף נייר','951.1 קיסם עטוף שחור','952. קיסם במלחיה 6','962.1 מדליק מוצק','971. אטבים 9 יח','986. סינרים בדיספנסר','1310. רשת משתנות','1331. שלישיה לאסלה','1501. ג׳וליה','1505. מיליציה','1507. מטאטא כביש 30','1509. מטאטא כביש 60','1512. מקל עץ','1515. מקל מתכת לבן','1521. שרובר','1522. מברשת אבק','1525. סט אורבן','1528. מטאטא מכוניות 24','1529. מטאטא מכוניות 28','1530.1 מגב 40 פשוט','1534. מגב 60 פשוט','1536. מגב מתכת 40','1535. מגב מתכת 60','1551. כף אשפה גומי','1552. כף אשפה עומד','1554. כף אשפה מתכת','1559. סט טורינו','1564. דלי פיה','1565.1 סל רשת אפור','1570.1 מרסס ריק','1571. מברשת נוצות','1583. מטאטא אולמות 40','1584. מטאטא אולמות 50','1607. מקל לסיליקון','1609. מגב סיליקון 45','1627. מטאטא סיליקון','1636. מגב חלון','1643. מגב סיליקון 60','1543. פח 60 ליטר','פח 80 ליטר','1660.1 פח שובך 10 אפור','1661.1 פח שובך 25 אפור','1662. פח שובך 50 לבן','1662.1 פח שובך 50 אפור','1662.2 פח שובך 50 שחור','1667. יעה חצרנים','1691. פח דוושה אפור 30 ל','1692. פח דוושה 45 לבן','1734. מגב פטנט 40','1736. מגב פטנט 60','1954. קיסם בצלופן','2010. מתקן צץ רץ שבת','2022. מתקן חצי שקוף','2036. מתקן ריצפתי','2038. שלט רצפה רטובה','2050T. מתקן צץ רץ','2052T. מתקן ג׳מבו','2054B. מפיון שחור','2054W. מפיון לבן','2055. מפיון מיני ואליו','2058. סבוניה 500 מל','2059. סבוניה 1000 מל','766. מתקן מבשם אוטומטי 24 יח','7600. מבשם למתקן בית מלון','7601. מבשם למתקן סקסי','7602. מבשם למתקן בית אופנה','7603. מבשם למתקן בלו','7605. מבשם למתקן אבקת בייבי','7607. מבשם למתקן מרכך כביסה','760. מבשם למתקן ונילה','764. מבשם למתקן לבנדר','777. מבשם נוזלי לבנדר','775. מבשם נוזלי גרניום','776. מבשם נוזלי טופח','778. מבשם נוזלי יערה','771. מבשם נוזלי ניחוח יער','6000. כפית לבן 100 יח'];
+  'כפפות M אלוורה','כפפות L אלוורה','כפפות S ניטריל שחור','כפפות M ניטריל שחור','כפפות L ניטריל שחור','כפפות XL ניטריל שחור','משטח דלי מגבונים','משטח מילוי מגבונים','106. סחבה 60 יח','126. זוג סחבה','205. ספוג סבון 500 יח','210. מטליות פרימיום','230.4 גליל אקולוגי','261.1 תפזורת כחול','261.2 תפזורת צהוב','261.3 תפזורת ורוד','294. גליל צהוב','301. מיקרו מטלית תפזורת','302. מיקרו סמרטוט תפזורת','363. מיקרו סמרטוט 3 יח','365. מיקרו 5 יח','440. מפה 100 לבן','441. מפה 25 לבן','440.9 מפה 100 שחור','441.22 מפה 25 שחור','440.7 מפה 100 שמנת','441.7 מפה 25 שמנת','440.5 מפה 100 כחול','441.5 מפה 25 כחול','440.3 מפה 100 אדום','441.3 מפה 25 אדום','440.9 מפה 100 צהוב','441.9 מפה 25 צהוב','440.4 מפה 100 בורדו','441.4 מפה 25 בורדו','440.23 מפה 100 ורוד','441.10 מפה 25 ורוד','442.1 מפה 120/180 לבן','445. מפה ראנר כסף','445.1 מפה ראנר זהב','446. מפה לבן','446. מפה שמנת','448.1 מוטבעת לבן','448. גליל מהודרת לבן','448. גליל מהודרת שחור','448. גליל מהודרת שמנת','451.1 צימרונים עץ','451.3 צימרונים פלסטיק','654. סופר מגבת 400','657. סופר מגבת 700','658. סופר מגבת 3 קג','680. בוחשן כפית','682. בוחשן עץ','800. סקוטש צבעוני','803. סקוטש לבן','809. ננס זהב 36 יח','811.1 כרית ברזל זוג','833. ממרקות 50 גרם','834. ממרקות 30 גרם','872. סקוטש 50 מ לבן','890. ספוג סקוטש','896. ספוג הפלא','900. כפפות ניילון','910. כובע אלבד','915. ספוג רחצה','916. סינר פי.וי.סי','918. כובע טבח','923. שיפוד 5/30','923.1 שיפוד 5/25','1963. שיפוד שטוח 24','934. כרית יפנית 9 יח','941. צמר פלדה 2.5 קג','949. צמר פלדה 50 יח','950. קיסמים 1 קג','951. קיסם עטוף נייר','951.1 קיסם עטוף שחור','952. קיסם במלחיה 6','962.1 מדליק מוצק','971. אטבים 9 יח','986. סינרים בדיספנסר','1310. רשת משתנות','1331. שלישיה לאסלה','1501. ג׳וליה','1505. מיליציה','1507. מטאטא כביש 30','1509. מטאטא כביש 60','1512. מקל עץ','1515. מקל מתכת לבן','1521. שרובר','1522. מברשת אבק','1525. סט אורבן','1528. מטאטא מכוניות 24','1529. מטאטא מכוניות 28','1530.1 מגב 40 פשוט','1534. מגב 60 פשוט','1536. מגב מתכת 40','1535. מגב מתכת 60','1551. כף אשפה גומי','1552. כף אשפה עומד','1554. כף אשפה מתכת','1559. סט טורינו','1564. דלי פיה','1565.1 סל רשת אפור','1570.1 מרסס ריק','1571. מברשת נוצות','1583. מטאטא אולמות 40','1584. מטאטא אולמות 50','1607. מקל לסיליקון','1609. מגב סיליקון 45','1627. מטאטא סיליקון','1636. מגב חלון','1643. מגב סיליקון 60','1543. פח 60 ליטר','פח 80 ליטר','1660.1 פח שובך 10 אפור','1661.1 פח שובך 25 אפור','1662. פח שובך 50 לבן','1662.1 פח שובך 50 אפור','1662.2 פח שובך 50 שחור','1667. יעה חצרנים','1691. פח דוושה אפור 30 ל','1692. פח דוושה 45 לבן','1734. מגב פטנט 40','1736. מגב פטנט 60','1954. קיסם בצלופן','2010. מתקן צץ רץ שבת','2022. מתקן חצי שקוף','2036. מתקן ריצפתי','2038. שלט רצפה רטובה','2050T. מתקן צץ רץ','2052T. מתקן ג׳מבו','2054B. מפיון שחור','2054W. מפיון לבן','2055. מפיון מיני ואליו','2058. סבוניה 500 מל','2059. סבוניה 1000 מל','766. מתקן מבשם אוטומטי 24 יח','7600. מבשם למתקן בית מלון','7601. מבשם למתקן סקסי','7602. מבשם למתקן בית אופנה','7603. מבשם למתקן בלו','7605. מבשם למתקן אבקת בייבי','7607. מבשם למתקן מרכך כביסה','760. מבשם למתקן ונילה','764. מבשם למתקן לבנדר','777. מבשם נוזלי לבנדר','775. מבשם נוזלי גרניום','776. מבשם נוזלי טופח','778. מבשם נוזלי יערה','771. מבשם נוזלי ניחוח יער','6000. כפית לבן 100 יח'
+];
+
 const Q = {};
-const totalProds = PRODUCTS.length;
-function key(i){return 'p'+i;}
-function build(){const wrap=document.getElementById('cat');const div=document.createElement('div');div.className='section';const head=document.createElement('div');head.className='sec-head';head.innerHTML='<span class="sec-title">🧽 הזמנה מ.א מטליות</span><span class="sec-badge" id="mainBadge"></span><span class="sec-arrow">▼</span>';head.onclick=()=>div.classList.toggle('closed');div.appendChild(head);const body=document.createElement('div');body.className='sec-body';PRODUCTS.forEach((p,i)=>body.appendChild(makeRow(p,i)));div.appendChild(body);wrap.appendChild(div);}
-function makeRow(prod,index){const k=key(index);Q[k]=0;const row=document.createElement('div');row.className='row';const name=document.createElement('span');name.className='row-name';name.textContent=prod;const qty=document.createElement('div');qty.className='qty';const minus=document.createElement('button');minus.className='qbtn';minus.type='button';minus.textContent='−';minus.onclick=()=>adj(k,-1);const input=document.createElement('input');input.className='qval';input.type='number';input.min='0';input.value='0';input.id='q_'+k;input.inputMode='numeric';input.onchange=()=>inp(k,input);const plus=document.createElement('button');plus.className='qbtn';plus.type='button';plus.textContent='+';plus.onclick=()=>adj(k,1);qty.append(minus,input,plus);row.append(name,qty);return row;}
-function adj(k,d){Q[k]=Math.max(0,(Q[k]||0)+d);document.getElementById('q_'+k).value=Q[k];refresh();}
-function inp(k,el){Q[k]=Math.max(0,parseInt(el.value,10)||0);el.value=Q[k];refresh();}
-function total(){return Object.values(Q).reduce((a,b)=>a+b,0);}
-function refresh(){const t=total();document.getElementById('cnt').textContent=t;const filled=Object.values(Q).filter(v=>v>0).length;document.getElementById('prog').style.width=Math.min(100,(filled/totalProds)*100)+'%';const badge=document.getElementById('mainBadge');badge.textContent=t;badge.className='sec-badge'+(t>0?' on':'');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-function sendOrder(){if(total()===0){showToast('⚠️ לא נבחרו פריטים!');return;}const d=new Date().toLocaleDateString('he-IL');let lines=['🛒 *הזמנה - מ.א מטליות*',`📅 ${d}`,'─────────────────'];PRODUCTS.forEach((prod,index)=>{const v=Q[key(index)];if(v>0) lines.push(`• ${prod}: *${v}*`);});const notes=document.getElementById('notes').value.trim();if(notes){lines.push('','─────────────────',`📝 *הערות:* ${notes}`);}lines.push('','─────────────────',`✅ סה״כ: *${total()} פריטים*`,'','‼️ *דווח חוסרים בהקדם האפשרי* ‼️','','*אשר*');window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(lines.join('\n'))}`,'_blank');}
+let totalProds = PRODUCTS.length;
+function key(index) { return 'p' + index; }
+function build() { const wrap=document.getElementById('cat'); const div=document.createElement('div'); div.className='section'; const head=document.createElement('div'); head.className='sec-head'; head.innerHTML='<span class="sec-title">🧽 הזמנה מ.א מטליות</span><span class="sec-badge" id="mainBadge"></span><span class="sec-arrow">▼</span>'; head.onclick=()=>div.classList.toggle('closed'); div.appendChild(head); const body=document.createElement('div'); body.className='sec-body'; PRODUCTS.forEach((prod,index)=>body.appendChild(makeRow(prod,index))); div.appendChild(body); wrap.appendChild(div); }
+function makeRow(prod,index) { const k=key(index); Q[k]=0; const row=document.createElement('div'); row.className='row'; const name=document.createElement('span'); name.className='row-name'; name.textContent=prod; const qty=document.createElement('div'); qty.className='qty'; const minus=document.createElement('button'); minus.className='qbtn'; minus.type='button'; minus.textContent='−'; minus.onclick=()=>adj(k,-1); const input=document.createElement('input'); input.className='qval'; input.type='number'; input.setAttribute('pattern','[0-9]*'); input.min='0'; input.value='0'; input.id='q_'+k; input.inputMode='numeric'; input.onchange=()=>inp(k,input); const plus=document.createElement('button'); plus.className='qbtn'; plus.type='button'; plus.textContent='+'; plus.onclick=()=>adj(k,1); qty.appendChild(minus); qty.appendChild(input); qty.appendChild(plus); row.appendChild(name); row.appendChild(qty); return row; }
+function adj(k,d) { Q[k]=Math.max(0,(Q[k]||0)+d); document.getElementById('q_'+k).value=Q[k]; refresh(); }
+function inp(k,el) { Q[k]=Math.max(0,parseInt(el.value,10)||0); el.value=Q[k]; refresh(); }
+function total() { return Object.values(Q).reduce((a,b)=>a+b,0); }
+function refresh() { const t=total(); document.getElementById('cnt').textContent=t; const filled=Object.values(Q).filter(v=>v>0).length; document.getElementById('prog').style.width=Math.min(100,(filled/totalProds)*100)+'%'; const badge=document.getElementById('mainBadge'); badge.textContent=t; badge.className='sec-badge'+(t>0?' on':''); }
+function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+function sendOrder() {
+  if (total()===0) { showToast('⚠️ לא נבחרו פריטים!'); return; }
+  const d=new Date().toLocaleDateString('he-IL');
+  let lines=['🛒 *הזמנה - מ.א מטליות*',`📅 ${d}`,'─────────────────'];
+  PRODUCTS.forEach((prod,index)=>{ const v=Q[key(index)]; if(v>0) lines.push(`• ${prod}: *${v}*`); });
+  const notes=document.getElementById('notes').value.trim();
+  if(notes) lines.push('','─────────────────',`📝 *הערות:* ${notes}`);
+  lines.push('','─────────────────',`✅ סה״כ: *${total()} פריטים*`,'','‼️ *דווח חוסרים בהקדם האפשרי* ‼️','','*אשר*');
+  const url=`https://wa.me/${PHONE}?text=${encodeURIComponent(lines.join('\n'))}`;
+  window.location.href=url;
+}
 build();
 </script>
+
 </body>
 </html>
